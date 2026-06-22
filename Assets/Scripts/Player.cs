@@ -34,8 +34,11 @@ public class Player : MonoBehaviour
 
     void Move()
     {
-        //プレイヤーの移動可能範囲制御
-        if (PlayerPosition.x<PlayerRotation.x)//left
+        
+    }
+    void RangeOfMotion()//プレイヤーの移動可能範囲制御
+    {
+        if (PlayerPosition.x < PlayerRotation.x)//left
         {
             PlayerPosition.x = PlayerRotation.x;
         }

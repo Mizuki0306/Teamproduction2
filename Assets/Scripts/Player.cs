@@ -40,6 +40,7 @@ public class Player : MonoBehaviour
     {
         if (PlayerPosition.x < PlayerRotation.x)//left
         {
+          
             PlayerPosition.x = PlayerRotation.x;
         }
         if (PlayerPosition.x > PlayerRotation.y)//right

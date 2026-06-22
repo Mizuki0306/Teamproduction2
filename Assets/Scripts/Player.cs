@@ -34,21 +34,22 @@ public class Player : MonoBehaviour
 
     void Move()
     {
-        if (PlayerPosition.x<0)
+        //プレイヤーの移動可能範囲制御
+        if (PlayerPosition.x<PlayerRotation.x)//left
         {
-            PlayerPosition.x = 0;
+            PlayerPosition.x = PlayerRotation.x;
         }
-        if (PlayerPosition.x < 0)
+        if (PlayerPosition.x > PlayerRotation.y)//right
         {
-            PlayerPosition.x = 0;
+            PlayerPosition.x = PlayerRotation.y;
         }
-        if (PlayerPosition.x < 0)
+        if (PlayerPosition.y < PlayerRotation.w)//top
         {
-            PlayerPosition.x = 0;
+            PlayerPosition.x = PlayerRotation.y;
         }
-        if (PlayerPosition.x < 0)
+        if (PlayerPosition.y > PlayerRotation.z)//bottom
         {
-            PlayerPosition.x = 0;
+            PlayerPosition.y = PlayerRotation.y;
         }
     }
 }

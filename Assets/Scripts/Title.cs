@@ -13,7 +13,7 @@ public class Title : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)||Input.GetButtonDown("1"))
+        if (Input.GetKeyDown(KeyCode.Space)|| Input.GetKeyDown(KeyCode.JoystickButton1))
         {
             if (!string.IsNullOrEmpty(nextSceneName))
             {

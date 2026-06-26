@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
@@ -18,14 +19,16 @@ public class Player : MonoBehaviour
     private Vector2 PlayerPosition;
     [Header("--- プレイヤーの移動可能範囲(x=left,y=right,z=bottom,w=top) ---")]
     public Vector4 PlayerRotation;
+    [Header("--- 手数カウント ---")]
+    public int MoveCount;
 
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
         PlayerPosition = transform.position;
+        MoveCount = 0;
     }
 
     // Update is called once per frame

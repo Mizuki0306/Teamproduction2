@@ -1,7 +1,10 @@
+using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class Title : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

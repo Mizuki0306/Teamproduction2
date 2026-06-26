@@ -50,10 +50,6 @@ public class Player : MonoBehaviour
         transform.position = PlayerPosition;
     }
 
-    void Move()
-    {
-        
-    }
     void RangeOfMotion() // プレイヤーの移動可能範囲制御
     {
         if (PlayerPosition.x < PlayerRotation.x) // left (これより左にいけない)

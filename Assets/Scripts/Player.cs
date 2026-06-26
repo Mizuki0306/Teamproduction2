@@ -1,4 +1,5 @@
 using Unity.VisualScripting;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 
@@ -24,36 +25,54 @@ public class Player : MonoBehaviour
     void Start()
     {
         
+        PlayerPosition = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        PlayerPosition = transform.position;
+        if (Input.GetKey(KeyCode.D))
+        {
+            Debug.Log("Dキーが押されています");
+            PlayerPosition.x += PlayerMoveSpeed * Time.deltaTime;
+        }
+        else if (Input.GetKey(KeyCode.A))
+        {
+            Debug.Log("Aキーが押されています");
+            PlayerPosition.x -= PlayerMoveSpeed * Time.deltaTime;
+        }
+        /*if (Input.GetButton("Horizontal"))
+        {
+            PlayerPosition.x += Input.GetAxis("Horizontal") * PlayerMoveSpeed * Time.deltaTime;
+        }*/
+        RangeOfMotion();
+        transform.position = PlayerPosition;
     }
 
     void Move()
     {
         
     }
-    void RangeOfMotion()//プレイヤーの移動可能範囲制御
+    void RangeOfMotion() // プレイヤーの移動可能範囲制御
     {
-        if (PlayerPosition.x < PlayerRotation.x)//left
+        if (PlayerPosition.x < PlayerRotation.x) // left (これより左にいけない)
         {
-          
             PlayerPosition.x = PlayerRotation.x;
         }
-        if (PlayerPosition.x > PlayerRotation.y)//right
+        if (PlayerPosition.x > PlayerRotation.y) // right (これより右にいけない)
         {
             PlayerPosition.x = PlayerRotation.y;
         }
-        if (PlayerPosition.y < PlayerRotation.w)//top
+
+        // --- ここから下が修正箇所です ---
+        if (PlayerPosition.y < PlayerRotation.z) // bottom (これより下(z)にいけない)
         {
-            PlayerPosition.x = PlayerRotation.y;
+            PlayerPosition.y = PlayerRotation.z; // zを代入
         }
-        if (PlayerPosition.y > PlayerRotation.z)//bottom
+        if (PlayerPosition.y > PlayerRotation.w) // top (これより上(w)にいけない)
         {
-            PlayerPosition.y = PlayerRotation.y;
+            PlayerPosition.y = PlayerRotation.w; // wを代入
         }
     }
 }

@@ -109,3 +109,4 @@ MonoBehaviour:
   HoldBrock: 0
   GameTimer: 0
   PlayerRotation: {x: 0, y: 0, z: 0, w: 0}
+  MoveCount: 0

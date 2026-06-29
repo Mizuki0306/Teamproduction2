@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     [Header("--- プレイヤーがブロックを掴んでいるか否かの判定 ---")]
     public bool HoldBrock = false; //プレイヤーがブロックを掴んでいるか否かの判定
     [Header("--- ゲーム時間 ---")]
-    public float GameTimer;
+    public static float GameTimer;
     [Header("--- プレイヤーの位置 ---")]
     private Vector2 PlayerPosition;
     [Header("--- プレイヤーの移動可能範囲(x=left,y=right,z=bottom,w=top) ---")]

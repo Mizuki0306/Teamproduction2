@@ -10,14 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 8871871755308709891}
   - component: {fileID: 5127867424626611939}
-  - component: {fileID: 8075985680426802669}
   - component: {fileID: 4465588993760943546}
   - component: {fileID: 8847185770092729318}
   - component: {fileID: 550703949811542280}
   - component: {fileID: 674508259992123499}
   - component: {fileID: 1869309355682808467}
   m_Layer: 0
-  m_Name: PushBrockBottom_1
+  m_Name: BrockBottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -97,19 +96,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &8075985680426802669
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6648734689433376473}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c00d1dba528f8b84383075af4f9fd2f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PushBrock
-  playerScript: {fileID: 0}
 --- !u!61 &4465588993760943546
 BoxCollider2D:
   m_ObjectHideFlags: 0

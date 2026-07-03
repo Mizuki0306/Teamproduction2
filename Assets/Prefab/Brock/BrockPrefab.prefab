@@ -9,9 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5119854569956121303}
-  - component: {fileID: 5375095648434629447}
   m_Layer: 0
-  m_Name: PushBrock
+  m_Name: BrockPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,19 +39,6 @@ Transform:
   - {fileID: 1524994460245643536}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5375095648434629447
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 196380507838971678}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c00d1dba528f8b84383075af4f9fd2f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PushBrock
-  playerScript: {fileID: 0}
 --- !u!1 &1799711945668474764
 GameObject:
   m_ObjectHideFlags: 0
@@ -443,7 +429,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2, y: 0.5}
   m_EdgeRadius: 0
---- !u!1001 &1883019097617929683
+--- !u!1001 &3876706187997104724
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -451,93 +437,59 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5119854569956121303}
     m_Modifications:
-    - target: {fileID: 5127867424626611939, guid: 014425ff590019840960ac7cee9b456c, type: 3}
-      propertyPath: m_Color.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5127867424626611939, guid: 014425ff590019840960ac7cee9b456c, type: 3}
-      propertyPath: m_Color.b
-      value: 0.20754719
-      objectReference: {fileID: 0}
-    - target: {fileID: 5127867424626611939, guid: 014425ff590019840960ac7cee9b456c, type: 3}
-      propertyPath: m_Color.g
-      value: 0.010146709
-      objectReference: {fileID: 0}
-    - target: {fileID: 5127867424626611939, guid: 014425ff590019840960ac7cee9b456c, type: 3}
-      propertyPath: m_Color.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5127867424626611939, guid: 014425ff590019840960ac7cee9b456c, type: 3}
-      propertyPath: m_SortingOrder
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6648734689433376473, guid: 014425ff590019840960ac7cee9b456c, type: 3}
-      propertyPath: m_Name
-      value: PushBrockBase_1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8871871755308709891, guid: 014425ff590019840960ac7cee9b456c, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8871871755308709891, guid: 014425ff590019840960ac7cee9b456c, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8871871755308709891, guid: 014425ff590019840960ac7cee9b456c, type: 3}
+    - target: {fileID: 6121016427795474308, guid: 15eb2359495cdbe469febf43c8296684, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8871871755308709891, guid: 014425ff590019840960ac7cee9b456c, type: 3}
+    - target: {fileID: 6121016427795474308, guid: 15eb2359495cdbe469febf43c8296684, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8871871755308709891, guid: 014425ff590019840960ac7cee9b456c, type: 3}
+    - target: {fileID: 6121016427795474308, guid: 15eb2359495cdbe469febf43c8296684, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8871871755308709891, guid: 014425ff590019840960ac7cee9b456c, type: 3}
+    - target: {fileID: 6121016427795474308, guid: 15eb2359495cdbe469febf43c8296684, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8871871755308709891, guid: 014425ff590019840960ac7cee9b456c, type: 3}
+    - target: {fileID: 6121016427795474308, guid: 15eb2359495cdbe469febf43c8296684, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 8871871755308709891, guid: 014425ff590019840960ac7cee9b456c, type: 3}
+    - target: {fileID: 6121016427795474308, guid: 15eb2359495cdbe469febf43c8296684, type: 3}
       propertyPath: m_LocalRotation.y
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 8871871755308709891, guid: 014425ff590019840960ac7cee9b456c, type: 3}
+    - target: {fileID: 6121016427795474308, guid: 15eb2359495cdbe469febf43c8296684, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 8871871755308709891, guid: 014425ff590019840960ac7cee9b456c, type: 3}
+    - target: {fileID: 6121016427795474308, guid: 15eb2359495cdbe469febf43c8296684, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8871871755308709891, guid: 014425ff590019840960ac7cee9b456c, type: 3}
+    - target: {fileID: 6121016427795474308, guid: 15eb2359495cdbe469febf43c8296684, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8871871755308709891, guid: 014425ff590019840960ac7cee9b456c, type: 3}
+    - target: {fileID: 6121016427795474308, guid: 15eb2359495cdbe469febf43c8296684, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4465588993760943546, guid: 014425ff590019840960ac7cee9b456c, type: 3}
-    - {fileID: 8847185770092729318, guid: 014425ff590019840960ac7cee9b456c, type: 3}
-    - {fileID: 550703949811542280, guid: 014425ff590019840960ac7cee9b456c, type: 3}
-    - {fileID: 674508259992123499, guid: 014425ff590019840960ac7cee9b456c, type: 3}
-    - {fileID: 1869309355682808467, guid: 014425ff590019840960ac7cee9b456c, type: 3}
-    - {fileID: 8075985680426802669, guid: 014425ff590019840960ac7cee9b456c, type: 3}
+    - target: {fileID: 8333924994896955742, guid: 15eb2359495cdbe469febf43c8296684, type: 3}
+      propertyPath: m_Name
+      value: PushBrockBase_1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 014425ff590019840960ac7cee9b456c, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 15eb2359495cdbe469febf43c8296684, type: 3}
 --- !u!4 &7007297278779338192 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 8871871755308709891, guid: 014425ff590019840960ac7cee9b456c, type: 3}
-  m_PrefabInstance: {fileID: 1883019097617929683}
+  m_CorrespondingSourceObject: {fileID: 6121016427795474308, guid: 15eb2359495cdbe469febf43c8296684, type: 3}
+  m_PrefabInstance: {fileID: 3876706187997104724}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4133477291731224404
 PrefabInstance:

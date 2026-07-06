@@ -37,29 +37,44 @@ public class Player : MonoBehaviour
     {
         PlayerPosition = transform.position;
 
-        if (Input.GetKey(KeyCode.A)&&HoldBrock==false)
+        // 最初は「動いていない状態（0：Idle）」として数字を設定しておく
+        int currentDir = 0;
+
+        // Aキー（左移動）
+        if (Input.GetKey(KeyCode.A) && HoldBrock == false)
         {
             Debug.Log("Aキーが押されています");
             PlayerPosition.x -= PlayerMoveSpeed * Time.deltaTime;
+            currentDir = 1; // 左向きのアニメーション番号「1」
         }
+        // Dキー（右移動）
         else if (Input.GetKey(KeyCode.D) && HoldBrock == false)
         {
             Debug.Log("Dキーが押されています");
             PlayerPosition.x += PlayerMoveSpeed * Time.deltaTime;
+            currentDir = 2; // 右向きのアニメーション番号「2」
         }
-        else if ( Input.GetKey(KeyCode.W) && HoldBrock == false)
+        // Wキー（上移動）
+        else if (Input.GetKey(KeyCode.W) && HoldBrock == false)
         {
             PlayerPosition.y += PlayerMoveSpeed * Time.deltaTime;
+            currentDir = 3; // 上向きのアニメーション番号「3」（後でRunUpを繋ぐ用）
         }
+        // Sキー（下移動）
         else if (Input.GetKey(KeyCode.S) && HoldBrock == false)
         {
             PlayerPosition.y -= PlayerMoveSpeed * Time.deltaTime;
+            currentDir = 4; // 下向きのアニメーション番号「4」（後でRunDownを繋ぐ用）
         }
-        /*if (Input.GetButton("Horizontal"))
-        {
-            PlayerPosition.x += Input.GetAxis("Horizontal") * PlayerMoveSpeed * Time.deltaTime;
-        }*/
+
+        // ★決まった向きの番号（0〜4）を、Animatorの「Direction」に送る
+        // これにより、キーを離した時は自動的に「0」が送られてIdleに戻ります（GetKeyUpの個別処理は不要になります）
+        anim.SetInteger("Direction", currentDir);
+
+        // 移動範囲の制限処理
         RangeOfMotion();
+
+        // 位置の反映
         transform.position = PlayerPosition;
     }
 

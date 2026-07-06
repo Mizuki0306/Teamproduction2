@@ -21,29 +21,39 @@ public class Player : MonoBehaviour
     public Vector4 PlayerRotation;
     [Header("--- 手数カウント ---")]
     public int MoveCount;
-
-
+    //アニメーション
+    private Animator anim;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         PlayerPosition = transform.position;
         MoveCount = 0;
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
         PlayerPosition = transform.position;
-        if (Input.GetKey(KeyCode.D))
+
+        if (Input.GetKey(KeyCode.A)&&HoldBrock==false)
+        {
+            Debug.Log("Aキーが押されています");
+            PlayerPosition.x -= PlayerMoveSpeed * Time.deltaTime;
+        }
+        else if (Input.GetKey(KeyCode.D) && HoldBrock == false)
         {
             Debug.Log("Dキーが押されています");
             PlayerPosition.x += PlayerMoveSpeed * Time.deltaTime;
         }
-        else if (Input.GetKey(KeyCode.A))
+        else if ( Input.GetKey(KeyCode.W) && HoldBrock == false)
         {
-            Debug.Log("Aキーが押されています");
-            PlayerPosition.x -= PlayerMoveSpeed * Time.deltaTime;
+            PlayerPosition.y += PlayerMoveSpeed * Time.deltaTime;
+        }
+        else if (Input.GetKey(KeyCode.S) && HoldBrock == false)
+        {
+            PlayerPosition.y -= PlayerMoveSpeed * Time.deltaTime;
         }
         /*if (Input.GetButton("Horizontal"))
         {

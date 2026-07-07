@@ -23,6 +23,9 @@ public class Player : MonoBehaviour
     public int MoveCount;
     //アニメーション
     private Animator anim;
+    // インスペクターからセットできるように、GameObject型の変数を作る
+    [SerializeField] private GameObject handCollider;
+    [SerializeField] private GameObject playerCollider;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -30,15 +33,50 @@ public class Player : MonoBehaviour
         PlayerPosition = transform.position;
         MoveCount = 0;
         anim = GetComponent<Animator>();
+        handCollider = transform.Find("HandCollider").gameObject;
+        playerCollider = transform.Find("PlayerCollider").gameObject;
     }
 
     // Update is called once per frame
     void Update()
     {
         PlayerPosition = transform.position;
+    // 入力の取得
+    float h =Input.GetAxisRaw("Horizontal");
+    float v = Input.GetAxisRaw("Vertical");
 
         // 最初は「動いていない状態（0：Idle）」として数字を設定しておく
         int currentDir = 0;
+        if (HoldBrock == false)
+        {
+            // --- 左右の移動とアニメーション判定 ---
+            if (h < -0.5f) // 左に入力されているとき
+            {
+                PlayerPosition.x -= PlayerMoveSpeed * Time.deltaTime;
+                currentDir = 1; // 左
+            }
+            else if (h > 0.5f) // 右に入力されているとき
+            {
+                PlayerPosition.x += PlayerMoveSpeed * Time.deltaTime;
+                currentDir = 2; // 右
+            }
+
+            // --- 上下の移動とアニメーション判定 ---
+            if (v > 0.5f) // 上に入力されているとき
+            {
+                PlayerPosition.y += PlayerMoveSpeed * Time.deltaTime;
+                currentDir = 3; // 上
+            }
+            else if (v < -0.5f) // 下に入力されているとき
+            {
+                PlayerPosition.y -= PlayerMoveSpeed * Time.deltaTime;
+                currentDir = 4; // 下
+            }
+        }
+        if (h == 0 && v == 0)
+        {
+            currentDir = 0;
+        }
 
         // Aキー（左移動）
         if (Input.GetKey(KeyCode.A) && HoldBrock == false)
@@ -48,20 +86,20 @@ public class Player : MonoBehaviour
             currentDir = 1; // 左向きのアニメーション番号「1」
         }
         // Dキー（右移動）
-        else if (Input.GetKey(KeyCode.D) && HoldBrock == false)
+        if (Input.GetKey(KeyCode.D) && HoldBrock == false)
         {
             Debug.Log("Dキーが押されています");
             PlayerPosition.x += PlayerMoveSpeed * Time.deltaTime;
             currentDir = 2; // 右向きのアニメーション番号「2」
         }
         // Wキー（上移動）
-        else if (Input.GetKey(KeyCode.W) && HoldBrock == false)
+        if (Input.GetKey(KeyCode.W) && HoldBrock == false)
         {
             PlayerPosition.y += PlayerMoveSpeed * Time.deltaTime;
             currentDir = 3; // 上向きのアニメーション番号「3」（後でRunUpを繋ぐ用）
         }
         // Sキー（下移動）
-        else if (Input.GetKey(KeyCode.S) && HoldBrock == false)
+        if (Input.GetKey(KeyCode.S) && HoldBrock == false)
         {
             PlayerPosition.y -= PlayerMoveSpeed * Time.deltaTime;
             currentDir = 4; // 下向きのアニメーション番号「4」（後でRunDownを繋ぐ用）

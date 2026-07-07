@@ -12,6 +12,8 @@ public class PushBrock : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-    }
-}
+        //if ()
+        //{
+           // playerScript.HoldBrock = true;
+        //}
+}}

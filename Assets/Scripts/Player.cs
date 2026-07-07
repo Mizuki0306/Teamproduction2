@@ -7,12 +7,11 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    private Brock brockScript;
     [Header("--- プレイヤーの動く速度 ---")]
     public float PlayerMoveSpeed=2; //プレイヤーの動く速度
     [Header("--- プレイヤーとブロックの距離 ---")]
     public float PlayerToBrock=2; //プレイヤーとブロックの距離
-    [Header("--- プレイヤーがブロックを掴んでいるか否かの判定 ---")]
-    public bool HoldBrock = false; //プレイヤーがブロックを掴んでいるか否かの判定
     [Header("--- ゲーム時間 ---")]
     public static float GameTimer;
     [Header("--- プレイヤーの位置 ---")]
@@ -23,19 +22,36 @@ public class Player : MonoBehaviour
     public int MoveCount;
     //アニメーション
     private Animator anim;
+    private bool _holdBrock;
     // インスペクターからセットできるように、GameObject型の変数を作る
     [SerializeField] private GameObject handCollider;
     [SerializeField] private GameObject playerCollider;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
-    {
+    {// ゲームが始まった瞬間に、自動でシーン内から Player スクリプトを探してきます
+        brockScript = FindFirstObjectByType<Brock>();
         PlayerPosition = transform.position;
         MoveCount = 0;
         anim = GetComponent<Animator>();
         handCollider = transform.Find("HandCollider").gameObject;
         playerCollider = transform.Find("PlayerCollider").gameObject;
     }
+
+
+    // インスペクターや他のスクリプトから触る用の「窓口」
+    public bool HoldBrock
+    {
+        get { return _holdBrock; }
+        set
+        {
+            _holdBrock = value;
+            if (anim != null)
+            {
+                anim.SetBool("HoldBrock", _holdBrock);
+            }
+        }
+    } // ← ちゃんと閉じているか確認！
 
     // Update is called once per frame
     void Update()
@@ -73,36 +89,37 @@ public class Player : MonoBehaviour
                 currentDir = 4; // 下
             }
         }
+        
+        if (HoldBrock == true||brockScript.currentType == Brock.BrockType.Push)
+        {
+            // --- 左右の移動とアニメーション判定 ---
+            if (h < -0.5f&&gameObject.name== "Collider_R") // 左に入力されているかつColliderRのとき
+            {
+                PlayerPosition.x -= PlayerMoveSpeed * Time.deltaTime;
+                currentDir = 5; // 左
+            }
+            else 
+            if (h > 0.5f&&gameObject.name== "Collider_L") // 右に入力されているとき
+            {
+                PlayerPosition.x += PlayerMoveSpeed * Time.deltaTime;
+                currentDir = 6; // 右
+            }
+
+            // --- 上下の移動とアニメーション判定 ---
+            if (v > 0.5f&&gameObject.name== "Collider_T") // 上に入力されているとき
+            {
+                PlayerPosition.y += PlayerMoveSpeed * Time.deltaTime;
+                currentDir = 7; // 上
+            }
+            if (v < -0.5f&&gameObject.name== "Collider_B") // 下に入力されているとき
+            {
+                PlayerPosition.y -= PlayerMoveSpeed * Time.deltaTime;
+                currentDir = 8; // 下
+            }
+        }
         if (h == 0 && v == 0)
         {
             currentDir = 0;
-        }
-
-        // Aキー（左移動）
-        if (Input.GetKey(KeyCode.A) && HoldBrock == false)
-        {
-            Debug.Log("Aキーが押されています");
-            PlayerPosition.x -= PlayerMoveSpeed * Time.deltaTime;
-            currentDir = 1; // 左向きのアニメーション番号「1」
-        }
-        // Dキー（右移動）
-        if (Input.GetKey(KeyCode.D) && HoldBrock == false)
-        {
-            Debug.Log("Dキーが押されています");
-            PlayerPosition.x += PlayerMoveSpeed * Time.deltaTime;
-            currentDir = 2; // 右向きのアニメーション番号「2」
-        }
-        // Wキー（上移動）
-        if (Input.GetKey(KeyCode.W) && HoldBrock == false)
-        {
-            PlayerPosition.y += PlayerMoveSpeed * Time.deltaTime;
-            currentDir = 3; // 上向きのアニメーション番号「3」（後でRunUpを繋ぐ用）
-        }
-        // Sキー（下移動）
-        if (Input.GetKey(KeyCode.S) && HoldBrock == false)
-        {
-            PlayerPosition.y -= PlayerMoveSpeed * Time.deltaTime;
-            currentDir = 4; // 下向きのアニメーション番号「4」（後でRunDownを繋ぐ用）
         }
 
         // ★決まった向きの番号（0〜4）を、Animatorの「Direction」に送る

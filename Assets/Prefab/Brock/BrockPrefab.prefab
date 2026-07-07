@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5119854569956121303}
+  - component: {fileID: 9102917321539415523}
   m_Layer: 0
   m_Name: BrockPrefab
   m_TagString: Untagged
@@ -39,6 +40,25 @@ Transform:
   - {fileID: 1524994460245643536}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9102917321539415523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 196380507838971678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c00d1dba528f8b84383075af4f9fd2f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Brock
+  playerScript: {fileID: 0}
+  currentType: 0
+  collider_L: {fileID: 1799711945668474764}
+  collider_R: {fileID: 3286854696585069422}
+  collider_T: {fileID: 7571081795989411502}
+  collider_B: {fileID: 7131946859247228618}
+  collider_Brock: {fileID: 1806916206326440166}
 --- !u!1 &1799711945668474764
 GameObject:
   m_ObjectHideFlags: 0
@@ -101,11 +121,11 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.8, y: 0}
+  m_Offset: {x: -1.02, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -115,7 +135,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.5, y: 2}
+  m_Size: {x: 0.05, y: 2}
   m_EdgeRadius: 0
 --- !u!1 &1806916206326440166
 GameObject:
@@ -348,11 +368,11 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.8, y: 0}
+  m_Offset: {x: 1.02, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -362,7 +382,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.5, y: 2}
+  m_Size: {x: 0.05, y: 2}
   m_EdgeRadius: 0
 --- !u!1 &5072424399122285322
 GameObject:

@@ -16,28 +16,36 @@ public class Player : MonoBehaviour
     public Vector4 PlayerRotation;
     [Header("--- 手数カウント ---")]
     public int MoveCount;
+
     //アニメーション
     public int currentDir;
     private Animator anim;
     private bool _holdBrock;
     private int lastDirection = 1; // 1:左, 2:右, 3:上, 4:下 (初期値は左)
+
+    // 【追加】UpdateからFixedUpdateへ入力を渡す変数
+    private float inputH;
+    private float inputV;
+
+    // 【追加】物理移動のためのRigidbody2D
+    private Rigidbody2D rb;
+
     // インスペクターからセットできるように、GameObject型の変数を作る
     [SerializeField] private GameObject handCollider;
     [SerializeField] private GameObject playerCollider;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // ゲームが始まった瞬間に、自動でシーン内から Player スクリプトを探してきます
         brockScript = FindFirstObjectByType<Brock>();
-        PlayerPosition = transform.position;
         MoveCount = 0;
         anim = GetComponent<Animator>();
         handCollider = transform.Find("HandCollider").gameObject;
         playerCollider = transform.Find("PlayerCollider").gameObject;
+
+        // ★ Rigidbody2Dを自動取得
+        rb = GetComponent<Rigidbody2D>();
     }
 
-    // インスペクターや他のスクリプトから触る用の「窓口」
     public bool HoldBrock
     {
         get { return _holdBrock; }
@@ -51,97 +59,72 @@ public class Player : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+    // ① Updateでは「入力の取得」と「アニメーション番号の決定」のみを行う
     void Update()
     {
-        PlayerPosition = transform.position;
+        inputH = Input.GetAxisRaw("Horizontal");
+        inputV = Input.GetAxisRaw("Vertical");
 
-        // 入力の取得
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
+        currentDir = 0;
 
-        // 最初は「動いていない状態（0：Idle）」にしておく
-         currentDir = 0;
-
-        // キーが押されている場合のみ移動処理を行う
-        if (h != 0 || v != 0)
+        if (inputH != 0 || inputV != 0)
         {
-            // --- 左右の移動 ---
-            if (h < -0.5f) // 左
-            {
-                PlayerPosition.x -= PlayerMoveSpeed * Time.deltaTime;
-                currentDir = HoldBrock ? 6: 1; // 掴み中なら6、通常なら1
-                lastDirection = 1;
-            }
-            if (h > 0.5f) // 右
-            {
-                PlayerPosition.x += PlayerMoveSpeed * Time.deltaTime;
-                currentDir = HoldBrock ? 5 : 2; // 掴み中なら5、通常なら2
-                lastDirection = 2;
-            }
+            // if-else if を使って条件式をスッキリ整理
+            if (inputH < -0.5f) { currentDir = HoldBrock ? 6 : 1; lastDirection = 1; }
+            else if (inputH > 0.5f) { currentDir = HoldBrock ? 5 : 2; lastDirection = 2; }
 
-            // --- 上下の移動 ---
-            if (v > 0.5f) // 上
-            {
-                PlayerPosition.y += PlayerMoveSpeed * Time.deltaTime;
-                currentDir = HoldBrock ? 7 : 3; // 掴み中なら7、通常なら3
-                lastDirection = 3;
-            }
-            if (v < -0.5f) // 下
-            {
-                PlayerPosition.y -= PlayerMoveSpeed * Time.deltaTime;
-                currentDir = HoldBrock ? 8 : 4; // 掴み中なら8、通常なら4
-                lastDirection = 4;
-            }
+            if (inputV > 0.5f) { currentDir = HoldBrock ? 7 : 3; lastDirection = 3; }
+            else if (inputV < -0.5f) { currentDir = HoldBrock ? 8 : 4; lastDirection = 4; }
         }
-        if (h == 0 && v == 0)
+        else // (inputH == 0 && inputV == 0) と同じ意味
         {
             if (HoldBrock)
             {
-                if (lastDirection == 1) currentDir = 10; // 左を向いていたなら IdleLeft (13)
-                else if (lastDirection == 2) currentDir = 9; // 右を向いていたなら IdleRight (14)
-                else if (lastDirection == 3) currentDir = 11; // 上を向いていたなら IdleTop (15)
-                else if (lastDirection == 4) currentDir = 12; // 下を向いていたなら IdleBottom (16)
+                if (lastDirection == 1) currentDir = 10;
+                else if (lastDirection == 2) currentDir = 9;
+                else if (lastDirection == 3) currentDir = 11;
+                else if (lastDirection == 4) currentDir = 12;
             }
             else
             {
-                // 通常時の待機（直前に向いていた方向によって、13〜16番を出し分ける）
-                if (lastDirection == 1) currentDir = 13; // 左を向いていたなら IdleLeft (13)
-                else if (lastDirection == 2) currentDir = 14; // 右を向いていたなら IdleRight (14)
-                else if (lastDirection == 3) currentDir = 15; // 上を向いていたなら IdleTop (15)
-                else if (lastDirection == 4) currentDir = 16; // 下を向いていたなら IdleBottom (16)
+                if (lastDirection == 1) currentDir = 13;
+                else if (lastDirection == 2) currentDir = 14;
+                else if (lastDirection == 3) currentDir = 15;
+                else if (lastDirection == 4) currentDir = 16;
             }
         }
-        // Animatorの「Direction」に番号を送る
+
         if (anim != null)
         {
             anim.SetInteger("Direction", currentDir);
         }
-
-        // 移動範囲の制限処理
-        RangeOfMotion();
-
-        // 位置の反映
-        transform.position = PlayerPosition;
     }
 
+    // ② 実際の移動計算、範囲制限、位置反映を物理のタイミングで行う
+    void FixedUpdate()
+    {
+        if (rb == null) return;
+
+        // 斜め移動で移動速度が上がらないように正規化(normalized)して速度を計算
+        Vector2 movement = new Vector2(inputH, inputV).normalized;
+        rb.linearVelocity = movement * PlayerMoveSpeed;
+
+        // ★元の仕様通り、一度PlayerPositionに現在の物理座標を入れてから計算
+        PlayerPosition = rb.position;
+
+        // 元々あった範囲制限の関数をここで呼び出す
+        RangeOfMotion();
+
+        // 制限し終わった座標を物理に返す
+        rb.position = PlayerPosition;
+    }
+
+    // ③ 【残した部分】範囲制限関数
     void RangeOfMotion() // プレイヤーの移動可能範囲制御
     {
-        if (PlayerPosition.x < PlayerRotation.x) // left
-        {
-            PlayerPosition.x = PlayerRotation.x;
-        }
-        if (PlayerPosition.x > PlayerRotation.y) // right
-        {
-            PlayerPosition.x = PlayerRotation.y;
-        }
-        if (PlayerPosition.y < PlayerRotation.z) // bottom
-        {
-            PlayerPosition.y = PlayerRotation.z;
-        }
-        if (PlayerPosition.y > PlayerRotation.w) // top
-        {
-            PlayerPosition.y = PlayerRotation.w;
-        }
+        if (PlayerPosition.x < PlayerRotation.x) PlayerPosition.x = PlayerRotation.x;
+        if (PlayerPosition.x > PlayerRotation.y) PlayerPosition.x = PlayerRotation.y;
+        if (PlayerPosition.y < PlayerRotation.z) PlayerPosition.y = PlayerRotation.z;
+        if (PlayerPosition.y > PlayerRotation.w) PlayerPosition.y = PlayerRotation.w;
     }
 }

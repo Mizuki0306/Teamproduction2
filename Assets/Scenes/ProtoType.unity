@@ -662,9 +662,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4463437355517162238, guid: d59c2af7b2805e34cb77221cfae7c2bc, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 663834640984088696}
-    - targetCorrespondingSourceObject: {fileID: 4463437355517162238, guid: d59c2af7b2805e34cb77221cfae7c2bc, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 663834640984088699}
   m_SourcePrefab: {fileID: 100100000, guid: d59c2af7b2805e34cb77221cfae7c2bc, type: 3}
 --- !u!1 &663834640984088690 stripped
@@ -683,28 +680,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5412f5be69bae8c448e638458e2d3962, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
---- !u!95 &663834640984088696
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 663834640984088690}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4c31b4b5ed084764fa1d376d29e9fe39, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!50 &663834640984088699
 Rigidbody2D:
   serializedVersion: 5

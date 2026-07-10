@@ -33,58 +33,27 @@ public class Brock : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // プレイヤーが正常に取得できていない場合は処理をしない（エラー防止）
+       
+    }
+    // ★プレイヤーの手（HandCollider）が、ブロックの子コライダーに触れている間の処理
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        // プレイヤーがいない、またはRTボタンが押されていないなら何もしない
         if (playerScript == null) return;
 
-        // 【注意】現在の条件式だと、このBrockスクリプトがアタッチされている
-        // オブジェクト自身の名前が「HandCollider」かつ「Collider_L」でないと実行されません。
-        // ※当たり判定（OnTriggerEnterなど）で名前を判定する場合は、書き換えが必要です。
-
-        if (gameObject.name == "HandCollider" && gameObject.name == "Collider_L") // left
+        // RTボタン（あるいは指定のボタン）が押された瞬間を検知
+        // ※GetAxisRaw("RT") > 0 だと、押している間中ずっとON/OFFが超高速で切り替わってしまうため、
+        // 1回カチッと押した瞬間だけ判定できるように、可能なら GetButtonDown などを推奨します。
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetAxisRaw("RT") > 0.5f)
         {
-            if (Input.GetAxisRaw("RT") > 0)
+            // 触れてきた相手（other）の名前が「HandCollider」のときだけ処理する
+            if (other.name == "HandCollider")
             {
+                // 現在の掴み状態を反転させる（掴んでいたら離す、離していたら掴む）
                 playerScript.HoldBrock = !playerScript.HoldBrock;
-            }
-            else
-            {
-                playerScript.HoldBrock = !playerScript.HoldBrock;
-            }
-        }
 
-        if (gameObject.name == "HandCollider" && gameObject.name == "Collider_R") // right
-        {
-            if (Input.GetAxisRaw("RT") > 0)
-            {
-                playerScript.HoldBrock = !playerScript.HoldBrock;
-            }
-            else
-            {
-                playerScript.HoldBrock = !playerScript.HoldBrock;
-            }
-        }
-
-        if (gameObject.name == "HandCollider" && gameObject.name == "Collider_T") // top
-        {
-            if (Input.GetAxisRaw("RT") > 0)
-            {
-                playerScript.HoldBrock = !playerScript.HoldBrock;
-            }
-            else
-            {
-                playerScript.HoldBrock = !playerScript.HoldBrock;
-            }
-        }
-
-        if (gameObject.name == "HandCollider" && gameObject.name == "Collider_B") // bottom
-        {
-            if (Input.GetAxisRaw("RT") > 0)
-            {
-                playerScript.HoldBrock = !playerScript.HoldBrock;
-            }
-            else
-            {
-                playerScript.HoldBrock = !playerScript.HoldBrock;
+                // 連続で一瞬に何回も切り替わるのを防ぐ簡易ガード（必要に応じて）
+                Debug.Log("掴み状態が切り替わりました: " + playerScript.HoldBrock);
             }
         }
     }

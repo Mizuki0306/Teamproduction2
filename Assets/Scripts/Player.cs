@@ -1,65 +1,63 @@
-using System.Runtime.InteropServices;
-using Unity.VisualScripting;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     private Brock brockScript;
     [Header("--- プレイヤーの動く速度 ---")]
-    public float PlayerMoveSpeed = 2; //プレイヤーの動く速度
+    public float PlayerMoveSpeed = 2;
     [Header("--- ゲーム時間 ---")]
     public static float GameTimer;
     [Header("--- プレイヤーの位置 ---")]
     private Vector2 PlayerPosition;
-    [Header("--- プレイヤーの移動可能範囲(x=left,y=right,z=bottom,w=top) ---")]
-    public Vector4 PlayerRotation;
     [Header("--- 手数カウント ---")]
     public int MoveCount;
 
-    //アニメーション
     public int currentDir;
     private Animator anim;
-    private bool _holdBrock;
-    private int lastDirection = 1; // 1:左, 2:右, 3:上, 4:下 (初期値は左)
+    public bool _holdBrock;
+    private int lastDirection = 1;
 
-    // 【追加】UpdateからFixedUpdateへ入力を渡す変数
     public float inputH;
     public float inputV;
-
-    // 【追加】物理移動のためのRigidbody2D
     private Rigidbody2D rb;
 
-    // インスペクターからセットできるように、GameObject型の変数を作る
     [SerializeField] private GameObject handCollider;
-    [SerializeField] private GameObject playerCollider;
+
+    // トリガーボタン（RT）の連打防止用フラグ
+    private bool isRTPressedInTrigger = false;
 
     void Start()
     {
-        brockScript = FindFirstObjectByType<Brock>();
-        MoveCount = 0;
+        // 1. 最優先でAnimatorを取得（これでエラーを確実に防ぐ）
         anim = GetComponent<Animator>();
-        handCollider = transform.Find("HandCollider").gameObject;
-        playerCollider = transform.Find("PlayerCollider").gameObject;
+        if (anim == null)
+        {
+            Debug.LogError("【エラー】Playerオブジェクトに Animator コンポーネントが見つかりません！");
+        }
 
-        // ★ Rigidbody2Dを自動取得
         rb = GetComponent<Rigidbody2D>();
+
+        // 2. 安全にBrockスクリプトを探す
+        brockScript = FindFirstObjectByType<Brock>();
+
+        // 3. 子オブジェクトからHandColliderを自動検索して取得
+        var handTransform = transform.Find("HandCollider");
+        if (handTransform != null)
+        {
+            handCollider = handTransform.gameObject;
+        }
     }
 
     public bool HoldBrock
     {
-        get { return _holdBrock; }
+        get => _holdBrock;
         set
         {
             _holdBrock = value;
-            if (anim != null)
-            {
-                anim.SetBool("HoldBrock", _holdBrock);
-            }
+            if (anim != null) anim.SetBool("HoldBrock", value);
         }
     }
 
-    // ① Updateでは「入力の取得」と「アニメーション番号の決定」のみを行う
     void Update()
     {
         inputH = Input.GetAxisRaw("Horizontal");
@@ -69,34 +67,18 @@ public class Player : MonoBehaviour
 
         if (inputH != 0 || inputV != 0)
         {
-            // if-else if を使って条件式をスッキリ整理
-            //if (inputH < -0.1f) { currentDir = HoldBrock ? 6 : 1; lastDirection = 1; }
-            //else if (inputH > 0.1f) { currentDir = HoldBrock ? 5 : 2; lastDirection = 2; }
-
-            //if (inputV > 0.1f) { currentDir = HoldBrock ? 7 : 3; lastDirection = 3; }
-            //else if (inputV < -0.1f) { currentDir = HoldBrock ? 8 : 4; lastDirection = 4; }
             if (inputH < 0) { currentDir = HoldBrock ? 6 : 1; lastDirection = 1; }
             else if (inputH > 0) { currentDir = HoldBrock ? 5 : 2; lastDirection = 2; }
 
             if (inputV > 0) { currentDir = HoldBrock ? 7 : 3; lastDirection = 3; }
             else if (inputV < 0) { currentDir = HoldBrock ? 8 : 4; lastDirection = 4; }
         }
-        else // (inputH == 0 && inputV == 0) と同じ意味
+        else
         {
             if (HoldBrock)
-            {
-                if (lastDirection == 1) currentDir = 10;
-                else if (lastDirection == 2) currentDir = 9;
-                else if (lastDirection == 3) currentDir = 11;
-                else if (lastDirection == 4) currentDir = 12;
-            }
+                currentDir = lastDirection == 1 ? 10 : lastDirection == 2 ? 9 : lastDirection == 3 ? 11 : 12;
             else
-            {
-                if (lastDirection == 1) currentDir = 13;
-                else if (lastDirection == 2) currentDir = 14;
-                else if (lastDirection == 3) currentDir = 15;
-                else if (lastDirection == 4) currentDir = 16;
-            }
+                currentDir = lastDirection == 1 ? 13 : lastDirection == 2 ? 14 : lastDirection == 3 ? 15 : 16;
         }
 
         if (anim != null)
@@ -105,31 +87,54 @@ public class Player : MonoBehaviour
         }
     }
 
-    // ② 実際の移動計算、範囲制限、位置反映を物理のタイミングで行う
+
     void FixedUpdate()
     {
         if (rb == null) return;
 
-        // 斜め移動で移動速度が上がらないように正規化(normalized)して速度を計算
         Vector2 movement = new Vector2(inputH, inputV).normalized;
         rb.linearVelocity = movement * PlayerMoveSpeed;
-
-        // ★元の仕様通り、一度PlayerPositionに現在の物理座標を入れてから計算
-        PlayerPosition = rb.position;
-
-        // 元々あった範囲制限の関数をここで呼び出す
-        RangeOfMotion();
-
-        // 制限し終わった座標を物理に返す
-        rb.position = PlayerPosition;
     }
 
-    // ③ 【残した部分】範囲制限関数
-    void RangeOfMotion() // プレイヤーの移動可能範囲制御
+
+    // ★【修正】コライダー接触中にキーボード「E」またはコントローラー「RT」で掴む判定
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        if (PlayerPosition.x < PlayerRotation.x) PlayerPosition.x = PlayerRotation.x;
-        if (PlayerPosition.x > PlayerRotation.y) PlayerPosition.x = PlayerRotation.y;
-        if (PlayerPosition.y < PlayerRotation.z) PlayerPosition.y = PlayerRotation.z;
-        if (PlayerPosition.y > PlayerRotation.w) PlayerPosition.y = PlayerRotation.w;
-    }
+        // 接触している対象が「Collider_L」という名前のブロックの場合
+        if (collision.gameObject.name == "Collider_L")
+        {
+            float rtValue = Input.GetAxisRaw("RT");
+
+            if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Space) || (rtValue > 0.5f && !isRTPressedInTrigger))
+            {
+                if (rtValue > 0.5f) isRTPressedInTrigger = true; // 連打防止
+
+                // 状態を反転（持っていないなら持つ、持っているなら離す）
+                HoldBrock = !HoldBrock;
+
+                if (HoldBrock)
+                {
+                    // ★★★ 【持った時の処理】 ★★★
+                    // ぶつかったブロックの親を「自分（Player）」に設定する
+                    collision.gameObject.transform.SetParent(this.transform);
+
+                    // 必要であれば、持った瞬間にプレイヤーの目の前（HandColliderの位置など）に
+                    // ブロックの位置をピタッと補正するコードをここに入れると綺麗になります
+                    Debug.Log("ブロックを持ちました：プレイヤーの子に設定");
+                }
+                else
+                {
+                    // ★★★ 【離した時の処理】 ★★★
+                    // ブロックの親を「なし（ステージ直下）」に戻す
+                    collision.gameObject.transform.SetParent(null);
+                    Debug.Log("ブロックを離しました：親子関係を解除");
+                }
+            }
+
+            if (rtValue < 0.1f)
+            {
+                isRTPressedInTrigger = false;
+            }
+        }
+}
 }

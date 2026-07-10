@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5119854569956121303}
   - component: {fileID: 9102917321539415523}
+  - component: {fileID: 5395746334898267155}
   m_Layer: 0
   m_Name: BrockPrefab
   m_TagString: Brock
@@ -60,6 +61,34 @@ MonoBehaviour:
   collider_T: {fileID: 7571081795989411502}
   collider_B: {fileID: 7131946859247228618}
   collider_Brock: {fileID: 1806916206326440166}
+  collider_InBrockGuide: {fileID: 0}
+--- !u!50 &5395746334898267155
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 196380507838971678}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1799711945668474764
 GameObject:
   m_ObjectHideFlags: 0

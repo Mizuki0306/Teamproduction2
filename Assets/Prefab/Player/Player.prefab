@@ -187,9 +187,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   PlayerMoveSpeed: 2
-  PlayerToBrock: 2
   PlayerRotation: {x: 0, y: 0, z: 0, w: 0}
   MoveCount: 0
+  currentDir: 0
+  _holdBrock: 0
+  inputH: 0
+  inputV: 0
   handCollider: {fileID: 6899054878181657407}
   playerCollider: {fileID: 4311673358134282926}
 --- !u!50 &8434209457106772945
@@ -251,6 +254,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7340280616824464851}
   - component: {fileID: 5735192284860911516}
+  - component: {fileID: 6033700338290675314}
   m_Layer: 0
   m_Name: HandCollider
   m_TagString: Untagged
@@ -303,7 +307,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -317,5 +321,17 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.85, y: 0.25}
+  m_Size: {x: 0.9, y: 0.25}
   m_EdgeRadius: 0
+--- !u!114 &6033700338290675314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6899054878181657407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2208e2d6e11c1bb4f9dd77ece34d951e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HandSensor

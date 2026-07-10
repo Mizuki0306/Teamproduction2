@@ -24,8 +24,8 @@ public class Player : MonoBehaviour
     private int lastDirection = 1; // 1:左, 2:右, 3:上, 4:下 (初期値は左)
 
     // 【追加】UpdateからFixedUpdateへ入力を渡す変数
-    private float inputH;
-    private float inputV;
+    public float inputH;
+    public float inputV;
 
     // 【追加】物理移動のためのRigidbody2D
     private Rigidbody2D rb;
@@ -70,11 +70,16 @@ public class Player : MonoBehaviour
         if (inputH != 0 || inputV != 0)
         {
             // if-else if を使って条件式をスッキリ整理
-            if (inputH < -0.5f) { currentDir = HoldBrock ? 6 : 1; lastDirection = 1; }
-            else if (inputH > 0.5f) { currentDir = HoldBrock ? 5 : 2; lastDirection = 2; }
+            //if (inputH < -0.1f) { currentDir = HoldBrock ? 6 : 1; lastDirection = 1; }
+            //else if (inputH > 0.1f) { currentDir = HoldBrock ? 5 : 2; lastDirection = 2; }
 
-            if (inputV > 0.5f) { currentDir = HoldBrock ? 7 : 3; lastDirection = 3; }
-            else if (inputV < -0.5f) { currentDir = HoldBrock ? 8 : 4; lastDirection = 4; }
+            //if (inputV > 0.1f) { currentDir = HoldBrock ? 7 : 3; lastDirection = 3; }
+            //else if (inputV < -0.1f) { currentDir = HoldBrock ? 8 : 4; lastDirection = 4; }
+            if (inputH < 0) { currentDir = HoldBrock ? 6 : 1; lastDirection = 1; }
+            else if (inputH > 0) { currentDir = HoldBrock ? 5 : 2; lastDirection = 2; }
+
+            if (inputV > 0) { currentDir = HoldBrock ? 7 : 3; lastDirection = 3; }
+            else if (inputV < 0) { currentDir = HoldBrock ? 8 : 4; lastDirection = 4; }
         }
         else // (inputH == 0 && inputV == 0) と同じ意味
         {

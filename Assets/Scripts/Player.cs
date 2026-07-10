@@ -8,8 +8,6 @@ public class Player : MonoBehaviour
     private Brock brockScript;
     [Header("--- プレイヤーの動く速度 ---")]
     public float PlayerMoveSpeed = 2; //プレイヤーの動く速度
-    [Header("--- プレイヤーとブロックの距離 ---")]
-    public float PlayerToBrock = 2; //プレイヤーとブロックの距離
     [Header("--- ゲーム時間 ---")]
     public static float GameTimer;
     [Header("--- プレイヤーの位置 ---")]

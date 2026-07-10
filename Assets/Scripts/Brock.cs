@@ -11,6 +11,7 @@ public class Brock : MonoBehaviour
     [SerializeField] private GameObject collider_T;
     [SerializeField] private GameObject collider_B;
     [SerializeField] private GameObject collider_Brock;
+    [SerializeField] private GameObject collider_InBrockGuide;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -28,6 +29,7 @@ public class Brock : MonoBehaviour
         collider_T = transform.Find("Collider_T").gameObject;
         collider_B = transform.Find("Collider_B").gameObject;
         collider_Brock = transform.Find("Collider_Brock").gameObject;
+        collider_InBrockGuide=transform.Find("Collider_InBrockGuide").gameObject;
     }
 
     // Update is called once per frame

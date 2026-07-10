@@ -188,7 +188,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player
   PlayerMoveSpeed: 2
   PlayerToBrock: 2
-  HoldBrock: 0
   PlayerRotation: {x: 0, y: 0, z: 0, w: 0}
   MoveCount: 0
   handCollider: {fileID: 6899054878181657407}
@@ -231,7 +230,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: ce776b42f7b8ee246908257eab32bba6, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

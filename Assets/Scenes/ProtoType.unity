@@ -588,6 +588,10 @@ PrefabInstance:
       propertyPath: PlayerRotation.z
       value: -4.6
       objectReference: {fileID: 0}
+    - target: {fileID: 2155855992585112400, guid: d59c2af7b2805e34cb77221cfae7c2bc, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4463437355517162238, guid: d59c2af7b2805e34cb77221cfae7c2bc, type: 3}
       propertyPath: m_Name
       value: Player
@@ -709,14 +713,14 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 663834640984088690}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -996,9 +1000,17 @@ PrefabInstance:
       propertyPath: playerScript
       value: 
       objectReference: {fileID: 663834640984088693}
+    - target: {fileID: 1524994460245643536, guid: baac9ace0f9b24542ae83e767618aafd, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25
+      objectReference: {fileID: 0}
     - target: {fileID: 1806916206326440166, guid: baac9ace0f9b24542ae83e767618aafd, type: 3}
       propertyPath: m_Name
       value: Collider_Brock
+      objectReference: {fileID: 0}
+    - target: {fileID: 4909193028607025393, guid: baac9ace0f9b24542ae83e767618aafd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.25
       objectReference: {fileID: 0}
     - target: {fileID: 5119854569956121303, guid: baac9ace0f9b24542ae83e767618aafd, type: 3}
       propertyPath: m_LocalScale.x
@@ -1056,6 +1068,10 @@ PrefabInstance:
       propertyPath: playerScript
       value: 
       objectReference: {fileID: 663834640984088693}
+    - target: {fileID: 6242681514793217678, guid: baac9ace0f9b24542ae83e767618aafd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 8140259302113158070, guid: baac9ace0f9b24542ae83e767618aafd, type: 3}
       propertyPath: m_Offset.x
       value: 0.77

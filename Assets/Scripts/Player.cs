@@ -81,12 +81,25 @@ public class Player : MonoBehaviour
         }
 
         currentDir = 0;
-        if ((inputH != 0 || inputV != 0) && !HoldBrock)
-        {
-            if (inputH < 0) { currentDir = HoldBrock ? 6 : 1; lastDirection = 1; }
-            else if (inputH > 0) { currentDir = HoldBrock ? 5 : 2; lastDirection = 2; }
-            else if (inputV > 0) { currentDir = HoldBrock ? 7 : 3; lastDirection = 3; }
-            else if (inputV < 0) { currentDir = HoldBrock ? 8 : 4; lastDirection = 4; }
+        if(inputH != 0 || inputV != 0)
+{
+            // --- 【横移動の判定】 ---
+            if (inputH != 0)
+            {
+                if (inputH > 0 && HoldBrock && lastDirection == 1) { currentDir = 17; } // 右入力 ＆ 掴み ＆ 直前左向き
+                else if (inputH < 0 && HoldBrock && lastDirection == 2) { currentDir = 18; } // 左入力 ＆ 掴み ＆ 直前右向き
+                else if (inputH < 0) { currentDir = HoldBrock ? 6 : 1; lastDirection = 1; }  // 通常の左移動
+                else if (inputH > 0) { currentDir = HoldBrock ? 5 : 2; lastDirection = 2; }  // 通常の右移動
+            }
+            // --- 【縦移動の判定】（横に入力がない時だけ処理） ---
+            else if (inputV != 0)
+            {
+                if (inputV > 0 && HoldBrock && lastDirection == 4) { currentDir = 20; } // 上入力 ＆ 掴み ＆ 直前下向き
+                                                                                        // コメントアウトされていた19番（下入力 ＆ 掴み ＆ 直前上向き）を使う場合はここに入れます
+                else if (inputV < 0 && HoldBrock && lastDirection == 3) { currentDir = 19; }
+                else if (inputV > 0) { currentDir = HoldBrock ? 7 : 3; lastDirection = 3; }  // 通常の上移動
+                else if (inputV < 0) { currentDir = HoldBrock ? 8 : 4; lastDirection = 4; }  // 通常の下移動
+            }
         }
         else
         {

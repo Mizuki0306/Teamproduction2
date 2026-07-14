@@ -65,9 +65,10 @@ public class Hand : MonoBehaviour
     private void Grab()
     {
         playerScript.HoldBrock = true;
-        playerScript.heldBrock = brockInRange; // ★追加：どのブロックを掴んだか記録
-        brockInRange.transform.SetParent(playerScript.transform);
+        playerScript.heldBrock = brockInRange;
+        brockInRange.IsHeld = true; // ★追加：掴んだフラグON
 
+        brockInRange.transform.SetParent(playerScript.transform);
         SetIgnoreCollision(brockInRange, true);
 
         Debug.Log("ブロックを掴みました: " + brockInRange.name);
@@ -81,10 +82,10 @@ public class Hand : MonoBehaviour
         {
             SetIgnoreCollision(brockInRange, false);
             brockInRange.transform.SetParent(null);
+            brockInRange.IsHeld = false; // ★追加：掴んだフラグOFF
         }
 
-        playerScript.heldBrock = null; // ★追加：参照をクリア
-
+        playerScript.heldBrock = null;
         Debug.Log("ブロックを離しました");
     }
 

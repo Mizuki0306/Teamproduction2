@@ -1,29 +1,41 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public bool GameClearJudge = false;
-    public string NextSceneName;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [Header("--- シーン内の全ガイドを自動収集 ---")]
+    private BrockGuide[] allGuides;
+
     void Start()
     {
-        
+        allGuides = FindObjectsByType<BrockGuide>(FindObjectsSortMode.None);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (GameClearJudge == true)
+        CheckClearCondition();
+    }
+
+    private void CheckClearCondition()
+    {
+        foreach (var guide in allGuides)
         {
-            if (!string.IsNullOrEmpty(NextSceneName))
+            if (!guide.isFilled)
             {
-                SceneManager.LoadScene(NextSceneName);
-            }
-            else
-            {
-                Debug.LogWarning("遷移先の nextSceneName がインスペクターで設定されていません！");
+                return; // 1つでも未配置のガイドがあればまだクリアではない
             }
         }
+
+        OnAllBrocksPlaced();
+    }
+
+    private bool cleared = false;
+
+    private void OnAllBrocksPlaced()
+    {
+        if (cleared) return; // 二重発火防止
+        cleared = true;
+
+        Debug.Log("ステージクリア！全てのブロックが正しい位置に配置されました");
+        // ここにクリア演出、シーン遷移、UIの表示などを追加してください
     }
 }

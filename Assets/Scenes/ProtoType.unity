@@ -1030,7 +1030,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5843961826420720931, guid: e15200b09a3f9aa4eae9b369364b64f0, type: 3}
       propertyPath: canPull
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6522814871285739735, guid: e15200b09a3f9aa4eae9b369364b64f0, type: 3}
       propertyPath: m_Color.b

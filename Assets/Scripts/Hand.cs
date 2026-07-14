@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Hand : MonoBehaviour
 {
@@ -48,7 +49,7 @@ public class Hand : MonoBehaviour
     {
         if (playerScript == null || brockInRange == null) return;
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) || Gamepad.current.bButton.wasPressedThisFrame )
         {
             if (!playerScript.HoldBrock)
             {
@@ -64,12 +65,10 @@ public class Hand : MonoBehaviour
     private void Grab()
     {
         playerScript.HoldBrock = true;
+        playerScript.heldBrock = brockInRange; // ★追加：どのブロックを掴んだか記録
         brockInRange.transform.SetParent(playerScript.transform);
 
-        // ★掴んだ瞬間、プレイヤー本体とブロック実体の衝突判定を無効化
-        // これにより「押す」動作でプレイヤーが押し返されなくなる
         SetIgnoreCollision(brockInRange, true);
-        Physics2D.IgnoreCollision(playerBodyCollider, brockInRange.GetBlockCol(), true);
 
         Debug.Log("ブロックを掴みました: " + brockInRange.name);
     }
@@ -78,16 +77,14 @@ public class Hand : MonoBehaviour
     {
         playerScript.HoldBrock = false;
 
-        
-
         if (brockInRange != null)
         {
-            // ★離す瞬間、衝突判定を元に戻す
             SetIgnoreCollision(brockInRange, false);
-            Physics2D.IgnoreCollision(playerBodyCollider, brockInRange.GetBlockCol(), false);
-
             brockInRange.transform.SetParent(null);
         }
+
+        playerScript.heldBrock = null; // ★追加：参照をクリア
+
         Debug.Log("ブロックを離しました");
     }
 

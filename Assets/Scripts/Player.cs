@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+
+
+    
+    public Brock heldBrock;
     public static Player Instance { get; private set; }
 
     [Header("--- プレイヤーの動く速度 ---")]
@@ -78,6 +82,9 @@ public class Player : MonoBehaviour
             {
                 inputH = 0;
             }
+
+            // ★押し引き制限：現在掴んでいるブロックのcanPush/canPullを確認
+            ApplyPushPullRestriction();
         }
 
         currentDir = 0;
@@ -102,6 +109,58 @@ public class Player : MonoBehaviour
         }
 
         UpdateHandPosition();
+    }
+
+    private void ApplyPushPullRestriction()
+    {
+        if (heldBrock == null) return;
+
+        // lastDirection: 1=左, 2=右, 3=上, 4=下（掴んだ瞬間の向き＝ブロックがある方向）
+        // プレイヤーがその向きに"さらに"進もうとしている＝ブロックに近づく＝押す
+        // プレイヤーがその逆に進もうとしている＝ブロックから離れる＝引く
+
+        bool tryingToPush = false;
+        bool tryingToPull = false;
+
+        switch (lockedAxis)
+        {
+            case 1: // 左右軸
+                if (lastDirection == 1) // ブロックは左にある
+                {
+                    tryingToPush = inputH < 0; // さらに左へ＝押す
+                    tryingToPull = inputH > 0; // 右へ戻る＝引く
+                }
+                else if (lastDirection == 2) // ブロックは右にある
+                {
+                    tryingToPush = inputH > 0;
+                    tryingToPull = inputH < 0;
+                }
+                break;
+
+            case 2: // 上下軸
+                if (lastDirection == 3) // ブロックは上にある
+                {
+                    tryingToPush = inputV > 0;
+                    tryingToPull = inputV < 0;
+                }
+                else if (lastDirection == 4) // ブロックは下にある
+                {
+                    tryingToPush = inputV < 0;
+                    tryingToPull = inputV > 0;
+                }
+                break;
+        }
+
+        if (tryingToPush && !heldBrock.canPush)
+        {
+            inputH = 0;
+            inputV = 0;
+        }
+        if (tryingToPull && !heldBrock.canPull)
+        {
+            inputH = 0;
+            inputV = 0;
+        }
     }
 
     private void UpdateHandPosition()

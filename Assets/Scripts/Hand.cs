@@ -49,17 +49,35 @@ public class Hand : MonoBehaviour
     {
         if (playerScript == null || brockInRange == null) return;
 
-        if (Input.GetKeyDown(KeyCode.Space) || Gamepad.current.bButton.wasPressedThisFrame )
+        if(Gamepad.current != null)
         {
-            if (!playerScript.HoldBrock)
+            if (Gamepad.current.bButton.isPressed)
             {
+
                 Grab();
             }
-            else
+            else if (Gamepad.current.bButton.wasReleasedThisFrame)
             {
+
                 Release();
             }
         }
+        else
+        {
+            if (Input.GetKey(KeyCode.Space))
+            {
+                //if (!playerScript.HoldBrock)
+                //{
+                Grab();
+                //}
+            }
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+
+                Release();
+            }
+        }
+
     }
 
     private void Grab()

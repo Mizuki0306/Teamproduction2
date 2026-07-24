@@ -25,4 +25,20 @@ public class Brock : MonoBehaviour
             playerScript.HoldBrock = false;
         }
     }
+    [Header("--- ˆÚ“®”»’è ---")]
+    [SerializeField] private LayerMask obstacleLayer;
+    [SerializeField] private float checkDistance = 1.0f;
+
+    public bool CanMove(Vector2 direction)
+    {
+        RaycastHit2D hit = Physics2D.BoxCast(
+            BrockCollider2D.bounds.center,
+            BrockCollider2D.bounds.size * 0.9f,
+            0f,
+            direction,
+            checkDistance,
+            obstacleLayer);
+
+        return hit.collider == null;
+    }
 }
